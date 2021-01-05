@@ -1,7 +1,7 @@
 #ifndef ENCODERS_H
 #define ENCODERS_H
 
-#include <encoders.h>
+#include <SimpleEncoder.h>
 
 class Encoder {
   public:

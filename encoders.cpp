@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <encoders.h>
+#include <SimpleEncoder.h>
 
 encoderInterrupts encInts;      // creates the structure which holds board
                                 // specific information used by encoders

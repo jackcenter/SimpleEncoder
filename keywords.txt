@@ -1,4 +1,4 @@
-Encoder			KEYWORD1
+Encoder		KEYWORD1
 
 init			KEYWORD2
 get_count		KEYWORD2

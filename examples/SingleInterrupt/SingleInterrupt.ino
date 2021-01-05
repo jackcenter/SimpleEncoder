@@ -7,7 +7,7 @@
  * to be included as an external library.
  */
 
-#include <encoders.h>
+#include <SimpleEncoder.h>
 
 const char enc1PinA = 2;    // Channel A pin
 const char enc1PinB = 4;    // Channel B pin
