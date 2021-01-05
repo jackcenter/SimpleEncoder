@@ -2,15 +2,11 @@
 
 encoderInterrupts encInts;
 
-Encoder::Encoder(char a, char b, int c, char dir){
+Encoder::Encoder(char a, char b, int c, char d){
   chanA_pin = a;
   chanB_pin = b;
   counts_per_rev = c;
-
-  if (dir >= 0)
-    lookup = enc_lookup_table_pos;
-  else
-    lookup = enc_lookup_table_neg;
+  dir = d;
 
   flag = 0;
 }
@@ -19,6 +15,11 @@ void Encoder::init(){
 
   pinMode(chanA_pin, INPUT_PULLUP);
   pinMode(chanB_pin, INPUT_PULLUP);
+
+  if (dir >= 0)
+    lookup = enc_lookup_table_pos;
+  else
+    lookup = enc_lookup_table_neg;
 
   // If these channels are intPins, need to update the strut, should not hard code
   // TODO: make the intPins in the struct an array so it can be searched

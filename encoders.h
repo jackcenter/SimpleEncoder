@@ -4,7 +4,6 @@
 #include <Arduino.h>
 #include <encoders.h>
 
-
 const signed char enc_lookup_table_pos[] = {
     0, 1, -1, 0,
     -1, 0 ,0, 1,
@@ -24,6 +23,7 @@ class Encoder {
     char chanA_pin;
     char chanB_pin;
     int counts_per_rev;
+    char dir;
     const signed char *lookup;        // pointer to the first element in the array
     volatile char chanA_val;
     volatile char chanB_val;
