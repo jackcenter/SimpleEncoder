@@ -1,6 +1,10 @@
-/* 
+/* Encoder Example
+ *  
+ * Outputs the current tick count of a two-channel optical encoder to the serial terminal. 
+ *  
  * This program demonstrates the basic functionality of the library on an Arduino Uno.
- * To run, upload, open the serial terminal, and turn the encoder.
+ * To run, upload, open the serial terminal, and turn the encoder. The library will need 
+ * to be included as an external library.
  */
 
 #include <encoders.h>
@@ -19,7 +23,8 @@ void setup() {
 
 void loop() {
   if (enc1.flag) { 
-    Serial.println(int(enc1.get_count()), DEC);
+    long count = enc1.get_count();
+    Serial.println(count, DEC);
     enc1.clear_flag();
   }
 }
