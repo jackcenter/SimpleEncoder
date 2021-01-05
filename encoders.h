@@ -1,7 +1,6 @@
 #ifndef ENCODERS_H
 #define ENCODERS_H
 
-#include <Arduino.h>
 #include <encoders.h>
 
 class Encoder {
@@ -16,7 +15,7 @@ class Encoder {
     volatile char chanA_val;    // reading on chanA: 0 or 1
     volatile char chanB_val;    // reading on chanB: 0 or 1
     char val_k0;                // combined reading for chanA, chanB: ie 00, 01, ..
-    volatile int cnt;           // current tick count
+    volatile long cnt;          // current tick count
     char flag;                  // flag to indicated an interrupt was processed
 
     Encoder(char, char, int, char);
@@ -42,6 +41,7 @@ struct encoderInterrupts {
   void (*calls[2])() = {encInt_0, encInt_1};    // array of function pointers
 };
 
+// Lookup Tables
 const signed char enc_lookup_table_dual_pos[] = {
     0, 1, -1, 0,
     -1, 0 ,0, 1,
