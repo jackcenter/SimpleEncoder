@@ -1,0 +1,8 @@
+Encoder			KEYWORD1
+
+init			KEYWORD2
+get_count		KEYWORD2
+set_flag		KEYWORD2
+clear_flag		KEYWORD2
+process_change		KEYWORD2
+update_encoder_count	KEYWORD2
