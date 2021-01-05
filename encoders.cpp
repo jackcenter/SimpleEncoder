@@ -17,27 +17,44 @@ void Encoder::init(){
   pinMode(chanA_pin, INPUT_PULLUP);
   pinMode(chanB_pin, INPUT_PULLUP);
 
-  if (dir >= 0)
-    lookup = enc_lookup_table_pos;
-  else
-    lookup = enc_lookup_table_neg;
-
-  // TODO: make the intPins in the struct an array so it can be searched
+  // Attach Interrupts
 
   for (char i = 0; i < encInts.available; ++i){
-    // run through each interrupt pin on the board
 
     if (chanA_pin == encInts.pins[i]){
+      chanA_int = 1;
       encInts.chans[i] = 'A';
       encInts.encs[i] = this;
       attachInterrupt(digitalPinToInterrupt(chanA_pin), encInts.calls[i], CHANGE);
     }
 
-    else if (chanB_pin == encInts.pins[i])
+    else if (chanB_pin == encInts.pins[i]){
+      chanB_int = 1;
       encInts.chans[i] = 'B';
       encInts.encs[i] = this;
       attachInterrupt(digitalPinToInterrupt(chanB_pin), encInts.calls[i], CHANGE);
     }
+  }
+
+  // Assign lookup table
+
+  if (chanA_int & chanB_int){
+      // Dual interrupt
+      Serial.println("Dual");
+      if (dir >= 0)
+        lookup = enc_lookup_table_dual_pos;
+      else
+        lookup = enc_lookup_table_dual_neg;
+  }
+
+  else if (chanA_int ^ chanB_int){
+      // Single interrupt
+      Serial.println("Single");
+      if (dir >= 0)
+        lookup = enc_lookup_table_dual_pos;
+      else
+        lookup = enc_lookup_table_dual_neg;
+  }
 
   chanA_val = digitalRead(chanA_pin);
   chanB_val = digitalRead(chanB_pin);
