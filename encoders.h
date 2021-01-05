@@ -40,19 +40,31 @@ class Encoder {
     void update_encoder_count();
 };
 
-struct encoderInterrupts {
-  // This is board dependent
-  const char int0Pin = 2;
-  const char int1Pin = 3;
-
-  char chan0;
-  char chan1;
-
-  Encoder *enc0;
-  Encoder *enc1;
-};
-
 void encInt_0();
 void encInt_1();
+
+struct encoderInterrupts {
+  // This is board dependent
+  const char available = 2;
+  char pins[2] = {2, 3};
+  char chans[2];
+  Encoder *encs[2];
+  void (*calls[2])() = {encInt_0, encInt_1};
+};
+
+//struct encoderInterrupts {
+//  // This is board dependent
+//  const char int0Pin = 2;
+//  const char int1Pin = 3;
+//
+//  char chan0;
+//  char chan1;
+//
+//  Encoder *enc0;
+//  Encoder *enc1;
+//};
+
+
+
 
 #endif

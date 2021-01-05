@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include <encoders.h>
 
 encoderInterrupts encInts;
@@ -21,16 +22,22 @@ void Encoder::init(){
   else
     lookup = enc_lookup_table_neg;
 
-  // If these channels are intPins, need to update the strut, should not hard code
   // TODO: make the intPins in the struct an array so it can be searched
-  encInts.chan0 = 'A';
-  encInts.chan1 = 'B';
 
-  encInts.enc0 = this;
-  encInts.enc1 = this;
+  for (char i = 0; i < encInts.available; ++i){
+    // run through each interrupt pin on the board
 
-  attachInterrupt(digitalPinToInterrupt(chanA_pin), encInt_0, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(chanB_pin), encInt_1, CHANGE);
+    if (chanA_pin == encInts.pins[i]){
+      encInts.chans[i] = 'A';
+      encInts.encs[i] = this;
+      attachInterrupt(digitalPinToInterrupt(chanA_pin), encInts.calls[i], CHANGE);
+    }
+
+    else if (chanB_pin == encInts.pins[i])
+      encInts.chans[i] = 'B';
+      encInts.encs[i] = this;
+      attachInterrupt(digitalPinToInterrupt(chanB_pin), encInts.calls[i], CHANGE);
+    }
 
   chanA_val = digitalRead(chanA_pin);
   chanB_val = digitalRead(chanB_pin);
@@ -74,12 +81,16 @@ void Encoder::update_encoder_count(){
   }
 }
 
+// One interrupt handler is needed for each external interrupt
 void encInt_0(){
-  encInts.enc0->process_change(encInts.chan0);
-  encInts.enc0->set_flag();
+  char i = 0;
+  encInts.encs[i]->process_change(encInts.chans[i]);
+  encInts.encs[i]->set_flag();
 }
 
 void encInt_1(){
-  encInts.enc1->process_change(encInts.chan1);
-  encInts.enc1->set_flag();
+  char i = 1;
+  encInts.encs[i]->process_change(encInts.chans[i]);
+  encInts.encs[i]->set_flag();
 }
+
