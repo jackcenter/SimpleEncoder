@@ -51,9 +51,9 @@ void Encoder::init(){
       // Single interrupt
       Serial.println("Single");
       if (dir >= 0)
-        lookup = enc_lookup_table_dual_pos;
+        lookup = enc_lookup_table_single_pos;
       else
-        lookup = enc_lookup_table_dual_neg;
+        lookup = enc_lookup_table_single_neg;
   }
 
   chanA_val = digitalRead(chanA_pin);
@@ -73,17 +73,11 @@ void Encoder::clear_flag(){
   flag = 0;
 }
 
-void Encoder::process_change(char chan){
+void Encoder::process_change(){
 
-  if (chan == 'A'){
-    chanA_val = digitalRead(chanA_pin);
-    update_encoder_count();
-  }
-
-  else if (chan == 'B'){
-    chanB_val = digitalRead(chanB_pin);
-    update_encoder_count();
-  }
+  chanA_val = digitalRead(chanA_pin);
+  chanB_val = digitalRead(chanB_pin);
+  update_encoder_count();
 }
 
 void Encoder::update_encoder_count(){
@@ -101,13 +95,13 @@ void Encoder::update_encoder_count(){
 // One interrupt handler is needed for each external interrupt
 void encInt_0(){
   char i = 0;
-  encInts.encs[i]->process_change(encInts.chans[i]);
+  encInts.encs[i]->process_change();
   encInts.encs[i]->set_flag();
 }
 
 void encInt_1(){
   char i = 1;
-  encInts.encs[i]->process_change(encInts.chans[i]);
+  encInts.encs[i]->process_change();
   encInts.encs[i]->set_flag();
 }
 
