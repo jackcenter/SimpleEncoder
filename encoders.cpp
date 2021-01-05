@@ -23,14 +23,12 @@ void Encoder::init(){
 
     if (chanA_pin == encInts.pins[i]){
       chanA_int = 1;
-      encInts.chans[i] = 'A';
       encInts.encs[i] = this;
       attachInterrupt(digitalPinToInterrupt(chanA_pin), encInts.calls[i], CHANGE);
     }
 
     else if (chanB_pin == encInts.pins[i]){
       chanB_int = 1;
-      encInts.chans[i] = 'B';
       encInts.encs[i] = this;
       attachInterrupt(digitalPinToInterrupt(chanB_pin), encInts.calls[i], CHANGE);
     }
@@ -62,14 +60,17 @@ void Encoder::init(){
 }
 
 int Encoder::get_count(){
+
   return cnt;
 }
 
 void Encoder::set_flag(){
+
   flag = 1;
 }
 
 void Encoder::clear_flag(){
+
   flag = 0;
 }
 
@@ -81,6 +82,7 @@ void Encoder::process_change(){
 }
 
 void Encoder::update_encoder_count(){
+
   char val_k1 = (chanA_val << 1) + chanB_val;
 
   if (val_k1 != val_k0){
