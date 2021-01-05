@@ -1,4 +1,4 @@
-# Who Needs Brakes
+# Simple Encoder Library
 
 ## How to Install
 
